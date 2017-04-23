@@ -7,18 +7,20 @@ RUN yum install -y sudo && \
     echo "developer:developer" | chpasswd && \
     echo 'developer ALL=(ALL) NOPASSWD: ALL' >>/etc/sudoers
 USER developer
-WORKDIR /home/developer
+ENV HOME /home/developer
+WORKDIR ${HOME}
 
 # init
 RUN sudo yum install -y deltarpm && \
     sudo yum update -y
 
 # anyenv installation
+ENV PATH ${HOME}/.anyenv/bin:${PATH}
 RUN sudo yum install -y git && \
     git clone https://github.com/riywo/anyenv ~/.anyenv && \
+    eval "$(anyenv init -)" && \
     echo 'export PATH="${HOME}/.anyenv/bin:${PATH}"' >>~/.bash_profile && \
     echo 'eval "$(anyenv init -)"' >>~/.bash_profile
-ENV PATH "${HOME}/.anyenv/bin:${PATH}"
 
 # Python installation
 ARG PYTHON_VERSION
