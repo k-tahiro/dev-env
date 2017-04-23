@@ -18,6 +18,7 @@ RUN sudo yum install -y git && \
     git clone https://github.com/riywo/anyenv ~/.anyenv && \
     echo 'export PATH="${HOME}/.anyenv/bin:${PATH}"' >>~/.bash_profile && \
     echo 'eval "$(anyenv init -)"' >>~/.bash_profile
+ENV PATH "${HOME}/.anyenv/bin:${PATH}"
 
 # Python installation
 ARG PYTHON_VERSION
