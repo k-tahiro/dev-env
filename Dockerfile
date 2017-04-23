@@ -20,6 +20,7 @@ RUN sudo yum install -y git && \
     echo 'eval "$(anyenv init -)"' >>~/.bash_profile
 
 # Python installation
+ARG PYTHON_VERSION
 RUN sudo yum install -y gcc \
                         make \
                         zlib-devel \
@@ -35,6 +36,7 @@ RUN sudo yum install -y gcc \
     pyenv global "${PYTHON_VERSION}"
 
 # Node.js installation
+ARG NODEJS_VERSION
 RUN anyenv install ndenv && \
     eval "$(anyenv init -)" && \
     ndenv install "${NODEJS_VERSION}" && \
