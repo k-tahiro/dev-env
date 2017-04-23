@@ -51,4 +51,4 @@ RUN anyenv install ndenv && \
     ndenv install "${NODEJS_VERSION}" && \
     ndenv global "${NODEJS_VERSION}"
 
-CMD /bin/bash
+ENTRYPOINT /sbin/init
