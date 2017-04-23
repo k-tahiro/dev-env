@@ -14,15 +14,8 @@ RUN yum install -y sudo && \
     echo "${DEVELOPER}:${DEVELOPER}" | chpasswd && \
     echo "${DEVELOPER} ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 
-# sshd installation
-RUN yum install -y openssh-server && \
-    sed -i 's/#Port 22/Port 22/g' /etc/ssh/sshd_config && \
-    sed -i 's/#PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config && \
-    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/g' /etc/ssh/sshd_config && \
-    systemctl start sshd.service
-
 # xrdp installation
-RUN sudo yum install -y git && \
+RUN yum install -y git && \
     TMP_DIR="$(mktemp -d)" && \
     sudo -u "${DEVELOPER}" git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
     sudo -u "${DEVELOPER}" cd "${TMP_DIR}" && \
