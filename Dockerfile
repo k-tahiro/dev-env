@@ -53,4 +53,4 @@ RUN anyenv install ndenv && \
     ndenv install "${NODEJS_VERSION}" && \
     ndenv global "${NODEJS_VERSION}"
 
-ENTRYPOINT /sbin/init
+ENTRYPOINT ["sudo", "/sbin/init"]
