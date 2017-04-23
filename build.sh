@@ -5,4 +5,5 @@
 
 docker build --build-arg PYTHON_VERSION="${PYTHON_VERSION}" \
              --build-arg NODEJS_VERSION="${NODEJS_VERSION}" \
-             -t dev-env
+             -t dev-env \
+             .
