@@ -16,14 +16,14 @@ RUN sudo yum install -y deltarpm && \
 
 # xrdp installation
 RUN TMP_DIR="$(mktemp -d)" && \
+    sudo yum install -y git && \
     git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
     cd "${TMP_DIR}" && \
     ./X11RDP-RH-Matic.sh --with-xorg-driver --nox11rdp
 
 # anyenv installation
 ENV PATH ${HOME}/.anyenv/bin:${PATH}
-RUN sudo yum install -y git && \
-    git clone https://github.com/riywo/anyenv ~/.anyenv && \
+RUN git clone https://github.com/riywo/anyenv ~/.anyenv && \
     eval "$(anyenv init -)" && \
     echo 'export PATH="${HOME}/.anyenv/bin:${PATH}"' >>~/.bash_profile && \
     echo 'eval "$(anyenv init -)"' >>~/.bash_profile
