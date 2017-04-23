@@ -14,15 +14,14 @@ RUN yum install -y sudo && \
     echo "${DEVELOPER}:${DEVELOPER}" | chpasswd && \
     echo "${DEVELOPER} ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 
-# xrdp installation
-RUN yum install -y git && \
-    TMP_DIR="$(sudo -u \"${DEVELOPER}\" mktemp -d)" && \
-    sudo -u "${DEVELOPER}" git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
-    sudo -u "${DEVELOPER}" cd "${TMP_DIR}" && \
-    sudo -u "${DEVELOPER}" ./X11RDP-RH-Matic.sh --with-xorg-driver --nox11rdp
-
 # develop environment creation
 USER "${DEVELOPER}"
+
+## xrdp installation
+RUN sudo yum install -y git && \
+    TMP_DIR="$(mktemp -d)" && \
+    git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
+    "${TMP_DIR}/X11RDP-RH-Matic.sh" --with-xorg-driver --nox11rdp
 
 ## anyenv installation
 ENV PATH="/home/${DEVELOPER}/.anyenv/bin:${PATH}"
