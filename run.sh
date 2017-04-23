@@ -1,4 +1,8 @@
 #!/bin/bash
 
-docker run --privileged --name ${NAME:="dev-env"} -d dev-env
+docker run --name ${NAME:="dev-env"} \
+           --privileged \
+           -v /sys/fs/cgroup:/sys/fs/cgroup \
+           -d \
+           dev-env
 docker exec -it ${NAME} /bin/bash
