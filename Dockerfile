@@ -16,7 +16,7 @@ RUN yum install -y sudo && \
 
 # xrdp installation
 RUN yum install -y git && \
-    TMP_DIR="$(mktemp -d)" && \
+    TMP_DIR="$(sudo -u \"${DEVELOPER}\" mktemp -d)" && \
     sudo -u "${DEVELOPER}" git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
     sudo -u "${DEVELOPER}" cd "${TMP_DIR}" && \
     sudo -u "${DEVELOPER}" ./X11RDP-RH-Matic.sh --with-xorg-driver --nox11rdp
