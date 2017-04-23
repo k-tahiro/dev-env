@@ -2,19 +2,20 @@ FROM centos:latest
 MAINTAINER k-tahiro
 
 # init
-ENV container docker
+ENV container="docker"
 VOLUME ["/sys/fs/cgroup"]
 RUN yum install -y deltarpm && \
     yum update -y
 
 # developer user creation
+ARG DEVELOPER
+ARG HOME="/home/${DEVELOPER}"
 RUN yum install -y sudo && \
-    useradd developer && \
-    echo "developer:developer" | chpasswd && \
-    echo 'developer ALL=(ALL) NOPASSWD: ALL' >>/etc/sudoers
-USER developer
-ENV HOME /home/developer
-WORKDIR ${HOME}
+    useradd "${DEVELOPER}" && \
+    echo "${DEVELOPER}:${DEVELOPER}" | chpasswd && \
+    echo "${DEVELOPER} ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
+USER "${DEVELOPER}"
+WORKDIR "${HOME}"
 
 # xrdp installation
 RUN TMP_DIR="$(mktemp -d)" && \
@@ -24,7 +25,7 @@ RUN TMP_DIR="$(mktemp -d)" && \
     ./X11RDP-RH-Matic.sh --with-xorg-driver --nox11rdp
 
 # anyenv installation
-ENV PATH ${HOME}/.anyenv/bin:${PATH}
+ENV PATH="${HOME}/.anyenv/bin:${PATH}"
 RUN git clone https://github.com/riywo/anyenv ~/.anyenv && \
     eval "$(anyenv init -)" && \
     echo 'export PATH="${HOME}/.anyenv/bin:${PATH}"' >>~/.bash_profile && \
@@ -53,4 +54,6 @@ RUN anyenv install ndenv && \
     ndenv install "${NODEJS_VERSION}" && \
     ndenv global "${NODEJS_VERSION}"
 
-ENTRYPOINT ["sudo", "/sbin/init"]
+USER root
+WORKDIR /root
+ENTRYPOINT /sbin/init
