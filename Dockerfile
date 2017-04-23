@@ -1,6 +1,12 @@
 FROM centos:latest
 MAINTAINER k-tahiro
 
+# init
+ENV container docker
+VOLUME ["/sys/fs/cgroup"]
+RUN sudo yum install -y deltarpm && \
+    sudo yum update -y
+
 # developer user creation
 RUN yum install -y sudo && \
     useradd developer && \
@@ -9,10 +15,6 @@ RUN yum install -y sudo && \
 USER developer
 ENV HOME /home/developer
 WORKDIR ${HOME}
-
-# init
-RUN sudo yum install -y deltarpm && \
-    sudo yum update -y
 
 # xrdp installation
 RUN TMP_DIR="$(mktemp -d)" && \
