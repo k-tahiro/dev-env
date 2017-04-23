@@ -21,7 +21,8 @@ USER "${DEVELOPER}"
 RUN sudo yum install -y git && \
     TMP_DIR="$(mktemp -d)" && \
     git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
-    "${TMP_DIR}/X11RDP-RH-Matic.sh" --with-xorg-driver --nox11rdp
+    cd "${TMP_DIR}" && \
+    ./X11RDP-RH-Matic.sh --with-xorg-driver --nox11rdp
 
 ## anyenv installation
 ENV PATH="/home/${DEVELOPER}/.anyenv/bin:${PATH}"
