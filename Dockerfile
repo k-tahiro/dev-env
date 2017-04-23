@@ -4,8 +4,8 @@ MAINTAINER k-tahiro
 # init
 ENV container docker
 VOLUME ["/sys/fs/cgroup"]
-RUN sudo yum install -y deltarpm && \
-    sudo yum update -y
+RUN yum install -y deltarpm && \
+    yum update -y
 
 # developer user creation
 RUN yum install -y sudo && \
