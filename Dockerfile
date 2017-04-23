@@ -14,6 +14,12 @@ WORKDIR ${HOME}
 RUN sudo yum install -y deltarpm && \
     sudo yum update -y
 
+# xrdp installation
+RUN TMP_DIR="$(mktemp -d)" && \
+    git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
+    cd "${TMP_DIR}" && \
+    ./X11RDP-RH-Matic.sh --with-xorg-driver --nox11rdp
+
 # anyenv installation
 ENV PATH ${HOME}/.anyenv/bin:${PATH}
 RUN sudo yum install -y git && \
@@ -44,11 +50,5 @@ RUN anyenv install ndenv && \
     eval "$(anyenv init -)" && \
     ndenv install "${NODEJS_VERSION}" && \
     ndenv global "${NODEJS_VERSION}"
-
-# xrdp installation
-RUN TMP_DIR="$(mktemp -d)" && \
-    git clone https://github.com/metalefty/X11RDP-RH-Matic.git "${TMP_DIR}" && \
-    cd "${TMP_DIR}" && \
-    ./X11RDP-RH-Matic.sh --with-xorg-driver --nox11rdp
 
 CMD /bin/bash
